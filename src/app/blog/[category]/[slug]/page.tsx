@@ -86,16 +86,16 @@ export default function Page({
             url: `${baseUrl}/blog/${post.metadata.category}/${post.slug}`,
             author: {
               "@type": "Person",
-              name: "Coding Jitsu Blog",
+              name: "Shantanu Tiwari",
             },
           }),
         }}
       />
-      {/* <ReportViews
+      <ReportViews
         category={post.metadata.category}
         title={post.metadata.title}
         slug={post.slug}
-      /> */}
+      />
       <Header>
         <Container>
           <div className="text-left -mx-8 md:-mx-8 lg:-mx-0">
