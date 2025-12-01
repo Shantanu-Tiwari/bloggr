@@ -12,7 +12,7 @@ type SiteConfig = {
 export const siteConfig: SiteConfig = {
   name: "Bloggr",
   description:
-    "A modern blog platform for developers and tech enthusiasts. Share insights, tutorials, and experiences.",
+    "Shantanu Tiwari's personal blog. Sharing insights on web development, programming, and tech experiences.",
   url: "https://bloggr.dev",
   ogImage: "https://bloggr.dev/og",
   links: {

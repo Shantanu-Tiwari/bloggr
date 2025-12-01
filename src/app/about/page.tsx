@@ -5,7 +5,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Learn more about Bloggr and its creator",
+  description: "Learn more about Shantanu Tiwari and his blog",
 };
 
 export default async function AboutPage() {

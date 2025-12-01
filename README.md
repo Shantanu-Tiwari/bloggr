@@ -1,7 +1,7 @@
 
 # Bloggr
 
-A modern blog platform built with Next.js 14, TypeScript, Shadcn/ui, MDX, Prisma and PostgreSQL.
+Shantanu Tiwari's personal blog built with Next.js 14, TypeScript, Shadcn/ui, MDX, Prisma and PostgreSQL.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

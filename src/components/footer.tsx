@@ -29,7 +29,7 @@ export default function Footer() {
               <span className="text-md font-semibold">Bloggr</span>
             </div>
             <p className="text-gray-500 dark:text-gray-400 text-sm">
-              Stay Up to Date with the latest news and insights from our blog.
+              Stay up to date with my latest posts on web development and tech.
             </p>
             <div className="flex space-x-4">
               <a
@@ -106,8 +106,8 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-md font-semibold">Newsletter</h3>
             <p className="text-gray-500 dark:text-gray-400 text-sm">
-              Subscribe to our newsletter to stay up-to-date with the latest
-              news and updates.
+              Subscribe to my newsletter to get notified about new posts
+              and updates.
             </p>
             <form ref={formRef} action={dispatch}>
               <div className="flex space-x-2">
