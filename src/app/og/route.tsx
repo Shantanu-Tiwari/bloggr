@@ -37,7 +37,7 @@ export function GET(request: Request) {
                 padding: "2px 25px 2px 2px",
               }}
             >
-              CB
+              B
             </span>
             <span
               style={{
@@ -45,7 +45,7 @@ export function GET(request: Request) {
                 fontSize: 20,
               }}
             >
-              coding-jitsu-blog.com
+              bloggr-beige.vercel.app
             </span>
           </div>
           <div
