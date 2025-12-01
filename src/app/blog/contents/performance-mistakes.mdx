@@ -1,0 +1,261 @@
+---
+title: "I Made My Website 10x Slower (And How I Fixed It)"
+publishedAt: "2024-07-20"
+summary: "Performance optimization sounds boring until your site takes 15 seconds to load. Here's every mistake I made and what actually worked."
+category: "performance"
+---
+
+Last month my personal website was loading in 15 seconds. Fifteen. Seconds.
+
+I knew it was slow, but I kept putting off fixing it. "I'll optimize it later," I told myself. Then a potential client mentioned they couldn't even get my portfolio to load on their phone.
+
+That was my wake-up call. Spent the next weekend diving deep into performance optimization. Turns out I was doing almost everything wrong.
+
+## The Disaster I Created
+
+My homepage was 8MB. Eight megabytes! For a simple portfolio site with maybe 10 images.
+
+Here's what I was doing wrong:
+- Loading 4K images for thumbnails
+- Importing entire icon libraries for 3 icons  
+- No lazy loading anywhere
+- CSS framework I wasn't even using
+- JavaScript bundles bigger than some video games
+
+The worst part? I thought I was being "thorough" by including everything upfront. Turns out that's the opposite of what you want.
+
+## Image Optimization: My Biggest Win
+
+Images were 90% of my problem. I had this beautiful hero image that was 3MB. For one image!
+
+**What I was doing:**
+```html
+<img src="hero-image-4k.jpg" alt="Hero" />
+```
+
+**What I should have been doing:**
+```html
+<picture>
+  <source srcset="hero.avif" type="image/avif">
+  <source srcset="hero.webp" type="image/webp">  
+  <img src="hero.jpg" alt="Hero" loading="lazy" />
+</picture>
+```
+
+But here's the thing - I didn't even know about AVIF format until I started researching. Turns out it can reduce file sizes by 50% compared to JPEG with better quality.
+
+**My lazy loading mistake:**
+I added `loading="lazy"` to EVERY image, including the hero image that's immediately visible. That actually made things slower because the browser had to wait to start loading the most important image.
+
+**The fix:**
+```html
+<!-- Hero image - load immediately -->
+<img src="hero.jpg" alt="Hero" />
+
+<!-- Everything else - lazy load -->
+<img src="thumbnail.jpg" alt="Thumbnail" loading="lazy" />
+```
+
+## JavaScript Bundle Hell
+
+My JavaScript bundle was 2.1MB. For a static portfolio site. That's insane.
+
+Turns out I was importing entire libraries for tiny features:
+
+```javascript
+// This imports ALL of Lodash (70KB)
+import _ from 'lodash';
+const result = _.debounce(myFunction, 300);
+
+// This imports just what I need (2KB)
+import debounce from 'lodash/debounce';
+const result = debounce(myFunction, 300);
+```
+
+**Bundle analyzer was a game changer.** Ran `npm install --save-dev webpack-bundle-analyzer` and nearly fell off my chair when I saw the results.
+
+The biggest culprit? I was importing Moment.js for date formatting. 67KB for something I could do with native JavaScript:
+
+```javascript
+// Old way (67KB)
+import moment from 'moment';
+const formatted = moment(date).format('MMM DD, YYYY');
+
+// New way (0KB)
+const formatted = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short', 
+  day: '2-digit'
+});
+```
+
+## CSS Framework Overkill
+
+I was using Bootstrap for... a grid system. That's it. 150KB of CSS for a grid I could write in 10 lines:
+
+```css
+/* Instead of Bootstrap (150KB) */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+```
+
+Sometimes the simple solution is the best solution.
+
+## The Caching Nightmare
+
+I thought I understood caching. I was wrong.
+
+My server was sending this header:
+```
+Cache-Control: no-cache
+```
+
+For EVERYTHING. Including images that never change. So every visit meant downloading all 8MB again.
+
+**The fix:**
+```javascript
+// Static assets - cache forever
+app.use('/images', express.static('images', {
+  maxAge: '1y',
+  immutable: true
+}));
+
+// HTML - always check for updates  
+app.use(express.static('public', {
+  maxAge: 0
+}));
+```
+
+## Database Queries Gone Wild
+
+My "recent posts" section was making 47 database queries. Forty-seven! For 5 blog posts.
+
+The problem was N+1 queries. I was fetching posts, then for each post, fetching the author, then the category, then the tags...
+
+```javascript
+// Bad - N+1 queries
+const posts = await Post.findAll({ limit: 5 });
+for (const post of posts) {
+  post.author = await User.findById(post.authorId);
+  post.category = await Category.findById(post.categoryId);
+}
+
+// Good - 1 query
+const posts = await Post.findAll({
+  limit: 5,
+  include: [User, Category]
+});
+```
+
+Went from 47 queries to 1. Load time dropped from 3 seconds to 200ms.
+
+## The Lighthouse Lies (Sort Of)
+
+I was obsessing over my Lighthouse score. Got it to 98/100 and felt great about myself.
+
+Then I tested on a real phone with a slow connection. Still took 8 seconds to load.
+
+Lighthouse tests on fast connections with powerful hardware. Real users don't have that.
+
+**Better testing approach:**
+- Test on actual devices
+- Use Chrome DevTools network throttling
+- Test on different connection types
+- Use WebPageTest with real locations
+
+## What Actually Worked (Finally)
+
+Okay so after trying literally everything I could think of, turns out most optimizations barely moved the needle. But a few things made huge differences:
+
+Images were the big one. Like, massive difference. Went from 8MB to 2MB just by using WebP and proper sizing. That alone cut load time in half.
+
+Removing unused JavaScript helped too, but not as much as I expected. Turns out users are more patient with JavaScript than images. Who knew?
+
+Caching was weird - made a big difference for repeat visitors but didn't help first-time users at all. Obviously. But I was so focused on Lighthouse scores I forgot about real user experience.
+
+Database stuff barely registered. Spent hours optimizing queries that saved maybe 50ms. Should've started with images.
+
+Classic 80/20 rule I guess. Few big wins, lots of tiny improvements that don't matter.
+
+## My Current Performance Stack
+
+Here's what I use now for new projects:
+
+**Images:**
+- Next.js Image component (handles optimization automatically)
+- Cloudinary for dynamic resizing
+- AVIF/WebP with JPEG fallback
+
+**JavaScript:**
+- Bundle analyzer on every build
+- Dynamic imports for non-critical code
+- Tree shaking enabled
+
+**CSS:**
+- Critical CSS inlined
+- Non-critical CSS loaded asynchronously
+- PurgeCSS to remove unused styles
+
+**Monitoring:**
+- Real User Monitoring (not just synthetic tests)
+- Core Web Vitals tracking
+- Performance budgets in CI/CD
+
+## The Mistakes I Still Make
+
+I'm not perfect. Still catch myself doing dumb stuff:
+
+- Forgetting to optimize images before uploading
+- Adding libraries without checking bundle size
+- Not testing on slow connections
+- Optimizing the wrong things first
+
+Performance is an ongoing process, not a one-time fix.
+
+## Tools I Actually Use
+
+Chrome DevTools is probably the most useful thing ever built. The Performance tab shows you exactly where time is being spent. Network tab shows you what's taking forever to download.
+
+PageSpeed Insights is good for a quick check but don't obsess over the score. I've seen sites with perfect Lighthouse scores that feel slow on real devices.
+
+WebPageTest is better for realistic testing. You can test from different locations with different connection speeds. More accurate than synthetic tests.
+
+For paid stuff, Cloudinary is worth it if you have lots of images. Handles optimization automatically. Cloudflare is cheap and makes everything faster.
+
+New Relic costs money but shows you what real users experience. Way more valuable than synthetic testing.
+
+## The Business Impact
+
+Here's the thing nobody talks about - performance directly affects your bottom line.
+
+After optimizing my site:
+- Bounce rate dropped 40%
+- Contact form submissions up 60%
+- Mobile traffic increased 25%
+
+Turns out fast sites actually make more money. Who would've thought?
+
+## If I Could Start Over
+
+I'd set performance budgets from the beginning. Like, actually enforce them in the build process. Don't let the bundle get over 500KB or whatever makes sense.
+
+Would've tested on my old Android phone way earlier. My MacBook Pro with gigabit internet is not representative of real users. Learned that the hard way.
+
+Also would've questioned every dependency. Do I really need Moment.js for date formatting? Probably not. Do I need the entire Lodash library for one function? Definitely not.
+
+But honestly, I probably would've made the same mistakes anyway. Sometimes you have to learn things the hard way.
+
+## When I Went Too Far
+
+I definitely got obsessed with this stuff. Spent an entire evening trying to shave 50ms off my load time. Fifty milliseconds! That's imperceptible to humans.
+
+My girlfriend walked by and asked what I was doing. "Optimizing performance," I said proudly. She looked at the site. "It loads fine," she said. "Why are you still working on it?"
+
+Good question. At some point you have to stop optimizing and start building features people actually want.
+
+Get your site under 3 seconds and call it good enough. Users care more about whether your content is useful than whether you're using AVIF images or WebP.
+
+Though they won't see your content if it takes 15 seconds to load. So there's that.

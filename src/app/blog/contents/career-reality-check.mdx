@@ -1,0 +1,192 @@
+---
+title: "What Nobody Tells You About Developer Internships"
+publishedAt: "2024-07-30"
+summary: "Six months into my first internship and I'm still confused about everything. Here's what they don't prepare you for."
+category: "career"
+---
+
+I'm six months into my first real internship at a tech company, and honestly? I have no idea what I'm doing half the time. Everyone keeps asking about my "career goals" and "five-year plan" like I'm supposed to have this figured out already.
+
+The thing is, I thought an internship would be like extended tutorials - someone would give me clear tasks, I'd complete them, and gradually I'd understand how real software development works. Instead, I spend most days feeling like I'm drowning in acronyms, trying to understand codebases that seem designed by people who hate future developers.
+
+Maybe other interns have it figured out. Maybe I'm the only one googling "what does a senior developer actually do" at 2 AM. But in case I'm not, here's what I've learned so far - which isn't much, but it's something.
+
+My first "real" task was fixing a bug that was supposedly "perfect for an intern." The description was one sentence: "Login sometimes fails on mobile." Seemed straightforward enough.
+
+Two weeks later, I'd traced the issue through five different files, three different frameworks, and what I can only describe as the most convoluted authentication flow I've ever seen. The actual fix was adding one line of code. One line! But finding where to add it required understanding how user sessions work, why the mobile app handles tokens differently than the web app, and why someone decided to implement custom validation instead of using the library everyone else uses.
+
+My mentor kept checking in: "How's it going? Should be pretty simple." And I kept saying "Almost got it!" while internally screaming because I couldn't even figure out where the login logic lived.
+
+Turns out this is normal. My mentor later told me he spent three days on a "simple" bug fix during his internship. "Reading code is harder than writing it," he said. "Nobody teaches you that in school."
+
+He's right. All my CS classes focused on writing algorithms from scratch. Nobody mentioned that most of your time would be spent trying to understand what previous developers were thinking when they wrote this mess. And yes, I'm sure my code will be someone else's "mess" someday.
+
+I used to hide my browser when googling basic stuff. Thought everyone would realize I'm a fraud if they saw me looking up "how to iterate over object javascript" for the hundredth time.
+
+Then I watched my mentor - this guy who's been coding for like eight years - google "git rebase vs merge" right in front of me during a code review.
+
+"I always forget which one does what," he said, completely unbothered. "I could memorize it, but why? I'll just look it up when I need it."
+
+That was weirdly liberating. Here's someone who makes architectural decisions, whose code reviews actually matter, and he's googling stuff I thought I should have memorized by now.
+
+Another time, I watched a senior developer spend ten minutes on Stack Overflow trying to remember how to center a div with CSS. Ten minutes! For something I assumed was basic knowledge.
+
+"The important thing," my mentor explained later, "isn't knowing everything. It's knowing how to find reliable answers quickly and understanding when those answers apply to your specific situation."
+
+Still feels weird though. Like, shouldn't I know more by now? But apparently everyone's just figuring it out as they go, which is both comforting and terrifying.
+
+I got lucky with my internship placement, but I'm starting to realize how lucky. Talking to other interns at meetups, some of their experiences sound... rough.
+
+One friend is at a startup where they don't do code reviews. At all. He just pushes code directly to production and hopes it works. "That's how startups move fast," his manager told him. Another intern hasn't written a single line of code in two months - just been updating documentation and attending meetings.
+
+Meanwhile, my team actually reviews my code (sometimes painfully thoroughly), we have automated tests that catch my mistakes before they break anything, and deployments happen through a proper pipeline instead of someone manually copying files to a server.
+
+I thought all companies worked like this. Turns out I'm in the minority.
+
+The scary part is that these other interns think their experiences are normal. "Real companies don't have time for testing," one told me. "Code reviews slow everything down."
+
+But like... how do you know if your code works without tests? How do you learn without feedback? I'm already confused enough about what I'm doing - I can't imagine trying to figure it out in complete chaos.
+
+Makes me wonder how many people quit programming because their first experience convinced them it's always this disorganized. Or worse, how many stick with it but never learn proper practices because they think dysfunction is just how software development works.
+
+## The Imposter Syndrome Thing
+
+Every day I feel like someone's going to realize I don't belong here. Like they'll discover I'm just a college student who watched some YouTube tutorials and somehow tricked them into giving me an internship.
+
+Last week they assigned me to work on a React component. I've been learning React for about a year, but suddenly I felt completely lost. What if they ask me about hooks? Do I actually understand state management? 
+
+I mentioned this to another intern during lunch. "Dude, same," he said. "I spent two hours yesterday trying to figure out why my component wasn't re-rendering. Turns out I was mutating state directly."
+
+That made me feel a bit better. At least I'm not the only one struggling with basic concepts.
+
+## Soft Skills Matter More Than I Expected
+
+I can write decent code. But the developers who get promoted? They're the ones who:
+- Communicate clearly in meetings
+- Help other team members when they're stuck  
+- Ask good questions during planning
+- Can explain technical concepts to non-technical people
+
+My biggest career breakthrough came from writing better documentation, not better code. Started documenting our deployment process because I was tired of asking the same questions. Suddenly I became the "go-to person" for deployments.
+
+## The Learning Never Stops (And That's Exhausting)
+
+New frameworks, new tools, new best practices. It never ends.
+
+I spent six months learning Vue.js. Then the company decided to standardize on React. Felt like wasted time, but my manager said learning Vue made me better at React too. "You understand the concepts now, not just the syntax."
+
+Still feels overwhelming sometimes. There's always something new to learn, and you can't learn everything.
+
+My strategy now:
+- Focus on fundamentals that transfer between technologies
+- Learn new things when I need them for work
+- Don't stress about every new JavaScript framework
+- Pick one area to go deep on (for me it's frontend performance)
+
+## Working From Home Is Weird
+
+My internship is hybrid - three days in office, two days remote. I thought the remote days would be awesome. No commute, work in comfortable clothes, no one watching over my shoulder.
+
+Turns out it's harder than I expected. When I get stuck on something, I can't just turn around and ask my mentor. Instead, I have to decide if my question is worth a Slack message or if I should keep struggling on my own.
+
+Also, my apartment is full of distractions. The dishes need washing, there's a new episode of that show I'm watching, my bed looks really comfortable for a "quick nap."
+
+I've had to set up a proper workspace at my desk instead of working from the couch. And I put my phone in another room because otherwise I'll check Instagram every five minutes.
+
+Some of my classmates love remote work, but I think I prefer being in the office. It's easier to learn when you can see what everyone else is doing.
+
+## Code Reviews Can Be Brutal (But They Make You Better)
+
+My first code review was devastating. Senior developer left 23 comments on a 50-line pull request. I thought I was terrible at this.
+
+But looking back, that feedback made me a much better developer. Learned about:
+- Proper error handling
+- Code organization
+- Performance considerations
+- Security best practices
+
+Now I appreciate thorough code reviews. Still stings sometimes, but I'd rather catch issues before they hit production.
+
+**Pro tip:** When reviewing code, always include something positive. "This function is really clean" or "Good variable naming here." Makes the criticism easier to take.
+
+## Debugging Is 80% Psychology
+
+Technical debugging skills matter, but the mental game is bigger.
+
+When I'm stuck on a bug for hours, I get frustrated. Start making random changes hoping something works. That never helps.
+
+What does help:
+- Take breaks (seriously, walk away for 10 minutes)
+- Explain the problem to someone else (rubber duck debugging)
+- Start over with a fresh approach
+- Write down what I've already tried
+
+The bug is usually something simple I overlooked. But when you're frustrated, you can't see simple solutions.
+
+## Nobody Knows What They Want to Be
+
+Everyone keeps asking what kind of developer I want to become. Frontend? Backend? Full-stack? DevOps? Data engineering? 
+
+Honestly, I have no idea. I thought I wanted to do frontend because I like making things look good, but then I got assigned to work on some API endpoints and that was pretty interesting too.
+
+My mentor says not to worry about it. "You'll figure it out by trying different things," he told me. "I started as a backend developer, moved to frontend, then got into DevOps, and now I'm doing full-stack. Your career doesn't have to follow a straight line."
+
+That's reassuring, I guess. Though it would be nice to have some direction instead of just stumbling around hoping something clicks.
+
+Let's be honest - part of why I'm doing this internship is because everyone says developers make good money. My parents keep asking if I'll get a job offer, and honestly, I have no idea.
+
+The salary stuff is confusing. My internship pays okay for a college student, but I have friends at other companies making twice as much. Location matters a lot - the same role in San Francisco pays way more than here, but rent is also insane there.
+
+Some startups offer equity instead of higher salaries. "You'll be rich when we IPO!" they say. But my mentor just laughed when I mentioned that. "I've got equity from three different startups," he said. "All worthless. Don't count on equity for anything."
+
+The big tech companies pay the most, but their interview process sounds terrifying. Leetcode problems, system design questions, behavioral interviews. I can barely handle the coding challenges I get assigned at work - how am I supposed to solve algorithmic puzzles under pressure?
+
+Plus, I'm not even sure what kind of developer I want to be yet. Frontend? Backend? Full-stack? DevOps? Everyone acts like I should have this figured out already, but I'm still learning what these roles actually involve.
+
+Maybe the money will work out eventually. Right now I'm just trying to not get fired from my internship and maybe learn enough to be useful somewhere.
+
+## Things I'm Learning (Slowly)
+
+Ask questions immediately when you're confused. I used to spend hours stuck on something before asking for help because I didn't want to seem stupid. But my mentor told me he'd rather I ask right away than waste time spinning my wheels.
+
+Take notes on everything. I thought I'd remember how to set up the development environment, but three weeks later I was googling the same commands again. Now I write everything down.
+
+Don't compare yourself to other interns. There's this guy in my cohort who seems to understand everything immediately. Turns out he's been coding since high school and already has two internships under his belt. Meanwhile, I started programming two years ago. We're not on the same timeline, and that's okay.
+
+Actually eat lunch. I kept working through lunch thinking it would make me look dedicated. All it did was make me tired and cranky in the afternoon. Taking breaks actually helps you think better.
+
+Code reviews aren't personal attacks. My first PR got torn apart with comments about naming conventions, error handling, and code organization. I felt terrible, but my mentor explained that good feedback makes you a better developer. Now I actually look forward to reviews because I learn something new every time.
+
+## Stuff That Still Makes No Sense
+
+Six months in, and there's still so much I don't understand:
+
+- How our deployment pipeline actually works (I know you push to main and stuff happens, but what stuff?)
+- Why we use TypeScript instead of just JavaScript (everyone says "type safety" but I still don't really get it)
+- What all these AWS services do and why we need so many of them
+- How to estimate how long anything will take ("this should be easy" always takes three times longer than expected)
+- When to use which design patterns (my mentor keeps mentioning "factory pattern" and "observer pattern" like I should know what those are)
+
+I'm starting to think this is normal though. Even the senior developers seem to be googling stuff constantly.
+
+## Why I Still Love This Job
+
+Despite all the challenges, I genuinely enjoy being a developer.
+
+There's something satisfying about solving problems with code. Building something that didn't exist before. Seeing users actually use the features you built.
+
+The community is generally helpful and welcoming. The work is intellectually challenging without being physically demanding. And yes, the pay is decent.
+
+Most importantly, I'm still learning new things every day. Some days that feels overwhelming. Other days it feels exciting.
+
+Six months in, and I still feel like I'm pretending to know what I'm doing. But maybe that's normal? My mentor says he felt the same way during his internship, and he seems to have figured things out.
+
+I can definitely do more now than when I started. I understand the codebase better, I can fix simple bugs without panicking, and I've even implemented a few small features that real users actually use. That's pretty cool, even if the features were basically just adding buttons that call existing functions.
+
+The imposter syndrome is real though. Every time someone asks my opinion in a meeting, I'm like "why are you asking me? I'm just an intern." But apparently my perspective is valuable sometimes, especially when it comes to user experience stuff. Fresh eyes and all that.
+
+I have no idea what I want to do after graduation. Full-time offer here? Try to get into a big tech company? Start applying to other places? Everyone expects me to have a plan, but honestly, I'm just trying to survive each day without breaking production.
+
+Maybe that's okay. Maybe nobody really knows what they're doing, and we're all just figuring it out as we go. At least I'm figuring it out with people who are patient enough to explain things and don't make me feel stupid for asking questions.
+
+That has to count for something, right?

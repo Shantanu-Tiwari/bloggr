@@ -1,0 +1,237 @@
+---
+title: "Web Performance: Making Your Site Actually Fast"
+publishedAt: "2024-07-20"
+summary: "Performance isn't just about making users happy. It directly impacts your bottom line. Here's how to make your web app genuinely fast."
+category: "performance"
+---
+
+I used to think performance optimization was something you worried about later. You know, after you've built the features and fixed the bugs. Then I watched a user abandon our app because it took 8 seconds to load on their phone.
+
+That was my wake-up call. Performance isn't a nice-to-have feature. It's the foundation everything else is built on. A slow app is a broken app, regardless of how many features it has.
+
+## The Real Cost of Slow Performance
+
+Before diving into solutions, let's talk about why this matters. Amazon found that every 100ms of latency cost them 1% in sales. Google discovered that increasing search results time by just 400ms reduced daily searches by 0.6%.
+
+For smaller sites, the impact is even more dramatic. Users expect pages to load in under 3 seconds. After that, bounce rates skyrocket. Mobile users are even less patient.
+
+## Start With Measurement
+
+You can't optimize what you don't measure. Before changing anything, establish baselines using real tools:
+
+**Core Web Vitals** are your north star:
+- **Largest Contentful Paint (LCP)**: Should be under 2.5 seconds
+- **First Input Delay (FID)**: Should be under 100ms  
+- **Cumulative Layout Shift (CLS)**: Should be under 0.1
+
+Use Chrome DevTools, PageSpeed Insights, or WebPageTest to get these numbers. Test on real devices with throttled connections, not just your high-end development machine.
+
+## Image Optimization: The Biggest Win
+
+Images typically account for 60-70% of page weight. This is where you'll see the most dramatic improvements.
+
+**Use modern formats:**
+```html
+<picture>
+  <source srcset="hero.avif" type="image/avif">
+  <source srcset="hero.webp" type="image/webp">
+  <img src="hero.jpg" alt="Hero image" loading="lazy">
+</picture>
+```
+
+**Implement responsive images:**
+```html
+<img 
+  srcset="small.jpg 480w, medium.jpg 800w, large.jpg 1200w"
+  sizes="(max-width: 480px) 100vw, (max-width: 800px) 50vw, 25vw"
+  src="medium.jpg" 
+  alt="Responsive image"
+>
+```
+
+**Lazy load everything below the fold:**
+```javascript
+// Modern browsers support this natively
+<img src="image.jpg" loading="lazy" alt="Lazy loaded image">
+
+// For older browsers, use Intersection Observer
+const images = document.querySelectorAll('img[data-src]');
+const imageObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      img.src = img.dataset.src;
+      imageObserver.unobserve(img);
+    }
+  });
+});
+
+images.forEach(img => imageObserver.observe(img));
+```
+
+## JavaScript: Less Is More
+
+JavaScript is expensive. It has to be downloaded, parsed, compiled, and executed. Every kilobyte matters.
+
+**Code splitting** breaks your bundle into smaller chunks:
+```javascript
+// Instead of importing everything upfront
+import { heavyLibrary } from './heavy-library';
+
+// Load it when needed
+const loadHeavyFeature = async () => {
+  const { heavyLibrary } = await import('./heavy-library');
+  return heavyLibrary;
+};
+```
+
+**Tree shaking** removes unused code:
+```javascript
+// Bad: imports entire library
+import _ from 'lodash';
+
+// Good: imports only what you need
+import debounce from 'lodash/debounce';
+```
+
+**Preload critical resources:**
+```html
+<link rel="preload" href="/critical.css" as="style">
+<link rel="preload" href="/hero-font.woff2" as="font" type="font/woff2" crossorigin>
+```
+
+## CSS Optimization
+
+CSS blocks rendering, so optimize it aggressively.
+
+**Critical CSS** should be inlined:
+```html
+<style>
+  /* Critical above-the-fold styles */
+  .header { display: flex; }
+  .hero { background: blue; }
+</style>
+
+<link rel="preload" href="/non-critical.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+```
+
+**Remove unused CSS** with tools like PurgeCSS or UnCSS. Most sites ship 90% unused CSS.
+
+**Use CSS containment** to limit layout recalculation:
+```css
+.card {
+  contain: layout style paint;
+}
+```
+
+## Caching Strategies
+
+Proper caching can make repeat visits nearly instantaneous.
+
+**HTTP caching headers:**
+```javascript
+// For static assets
+Cache-Control: public, max-age=31536000, immutable
+
+// For HTML
+Cache-Control: public, max-age=0, must-revalidate
+```
+
+**Service Workers** for advanced caching:
+```javascript
+self.addEventListener('fetch', event => {
+  if (event.request.destination === 'image') {
+    event.respondWith(
+      caches.open('images').then(cache => {
+        return cache.match(event.request).then(response => {
+          return response || fetch(event.request).then(fetchResponse => {
+            cache.put(event.request, fetchResponse.clone());
+            return fetchResponse;
+          });
+        });
+      })
+    );
+  }
+});
+```
+
+## Database and API Optimization
+
+Frontend performance means nothing if your backend is slow.
+
+**Database indexing** on frequently queried columns:
+```sql
+-- Index on commonly filtered columns
+CREATE INDEX idx_user_email ON users(email);
+CREATE INDEX idx_post_created_at ON posts(created_at);
+```
+
+**API response optimization:**
+```javascript
+// Bad: Returns everything
+app.get('/users', (req, res) => {
+  const users = db.users.findAll();
+  res.json(users);
+});
+
+// Good: Returns only needed fields
+app.get('/users', (req, res) => {
+  const users = db.users.findAll({
+    attributes: ['id', 'name', 'email']
+  });
+  res.json(users);
+});
+```
+
+**Implement pagination:**
+```javascript
+app.get('/posts', (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 20;
+  const offset = (page - 1) * limit;
+  
+  const posts = db.posts.findAll({ limit, offset });
+  res.json(posts);
+});
+```
+
+## Monitoring and Continuous Improvement
+
+Performance optimization isn't a one-time task. Set up monitoring to catch regressions:
+
+**Real User Monitoring (RUM):**
+```javascript
+// Track Core Web Vitals
+new PerformanceObserver((list) => {
+  for (const entry of list.getEntries()) {
+    if (entry.entryType === 'largest-contentful-paint') {
+      console.log('LCP:', entry.startTime);
+    }
+  }
+}).observe({ entryTypes: ['largest-contentful-paint'] });
+```
+
+**Performance budgets** in your build process:
+```json
+{
+  "budgets": [
+    {
+      "type": "initial",
+      "maximumWarning": "500kb",
+      "maximumError": "1mb"
+    }
+  ]
+}
+```
+
+## The Performance Mindset
+
+The best performance optimization is the code you don't write. Before adding any library or feature, ask yourself:
+
+- Do I really need this?
+- Can I build a simpler version?
+- What's the performance cost?
+
+Performance isn't about using every optimization technique. It's about making conscious trade-offs and measuring the impact of your decisions.
+
+Start with the biggest wins (usually images and JavaScript), measure everything, and remember that your users' experience is what matters most. A fast, simple site beats a slow, feature-rich one every time.
