@@ -37,7 +37,7 @@ export default async function AboutPage() {
             </div>
           </div>
           <div className="text-muted-foreground text-lg py-4 space-y-4">
-            <p>Hi, I'm Shantanu Tiwari, a developer obsessed with building useful, scalable products.</p>
+            <p>Hi, I&apos;m Shantanu Tiwari, a developer obsessed with building useful, scalable products.</p>
             <p>I enjoy turning ideas into real, working systems, from AI-powered tools to collaborative web apps.</p>
             <p>I love solving problems, shipping fast, and experimenting with tech that actually impacts users.</p>
           </div>
