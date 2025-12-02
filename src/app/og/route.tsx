@@ -45,7 +45,7 @@ export function GET(request: Request) {
                 fontSize: 20,
               }}
             >
-              bloggr-beige.vercel.app
+              bloggr.shantanutiwari.me
             </span>
           </div>
           <div

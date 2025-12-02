@@ -1,7 +1,7 @@
 import { POSTS } from "@/lib/constants";
 import { getBlogPosts } from "./blog/utils";
 
-export const baseUrl = "https://bloggr-beige.vercel.app";
+export const baseUrl = "https://bloggr.shantanutiwari.me";
 
 export default async function sitemap() {
   let blogs = getBlogPosts().map((post) => ({
